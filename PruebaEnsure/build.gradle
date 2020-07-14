@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://artifactory.apps.bancolombia.com/maven-bancolombia/"
+        }
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.0")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group 'Prueba Ensure'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {url "https://artifactory.apps.bancolombia.com/maven-bancolombia/"}
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'io.cucumber:cucumber-core:5.5.0'
+        force 'io.cucumber:cucumber-junit:5.5.0'
+        force 'net.serenity-bdd:serenity-junit:2.2.0'
+        force 'net.serenity-bdd:serenity-core:2.2.0'
+        force 'net.serenity-bdd:serenity-screenplay:2.2.0'
+        force 'net.serenity-bdd:serenity-screenplay-webdriver:2.2.0'
+        force 'net.serenity-bdd:serenity-cucumber5:2.2.0'
+        force 'net.serenity-bdd:serenity-ensure:2.2.0'
+    }
+}
+
+dependencies {
+    compile 'net.serenity-bdd:serenity-core:2.2.0'
+    compile 'net.serenity-bdd:serenity-junit:2.2.0'
+    compile 'net.serenity-bdd:serenity-ensure:2.2.0'
+    compile 'net.serenity-bdd:serenity-screenplay:2.2.0'
+    compile 'net.serenity-bdd:serenity-screenplay-webdriver:2.2.0'
+    compile 'net.serenity-bdd:serenity-cucumber5:2.2.0'
+
+    compile 'io.cucumber:cucumber-core:5.5.0'
+    compile 'io.cucumber:cucumber-junit:5.5.0'
+
+    testCompile('junit:junit:4.12')
+    testCompile('org.slf4j:slf4j-simple:1.7.7')
+}
+
+gradle.startParameter.continueOnFailure = true
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
